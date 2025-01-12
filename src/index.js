@@ -1,15 +1,25 @@
-import {Expression} from "./expression";
+import { Expression } from './expression';
 
-document.addEventListener('DOMContentLoaded',setup);
+document.addEventListener('DOMContentLoaded', setup);
 
-function setup(){
-    const button = document.getElementById('newExprButton');
-    button.onclick = addExpression;
+function setup() {
+  const diffButton = document.getElementById('diffButton');
+  diffButton.onclick = handleDiff;
 }
-function addExpression(){
-    const expression = new Expression('3*x');
-    const container = document.getElementById('mathContainer');
-    const expressionElement = document.createElement('div');
-    expressionElement.innerHTML = expression.toString();
-    container.appendChild(expressionElement);
+
+function handleDiff() {
+  // Получаем выражение и переменную из полей ввода
+  const expressionInput = document.getElementById('expression').value;
+  const variableInput = document.getElementById('variable').value;
+
+  // Если оба поля заполнены
+  if (expressionInput && variableInput) {
+    const expr = new Expression(expressionInput);
+    const result = expr.diff(variableInput); // Дифференцируем
+    const resultElement = document.getElementById('result');
+    resultElement.innerHTML = `Result: ${result.toString()}`; // Отображаем результат
+  } else {
+    const resultElement = document.getElementById('result');
+    resultElement.innerHTML = 'Please provide both expression and variable.'; // Если не все поля заполнены
+  }
 }
